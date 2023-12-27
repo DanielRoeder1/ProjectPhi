@@ -5,3 +5,5 @@ einops
 datasets
 wandb
 omegaconf
+sentence_splitter 
+evaluate

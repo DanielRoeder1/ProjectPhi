@@ -1,0 +1,7 @@
+torch
+accelerate
+bitsandbytes
+einops
+datasets
+wandb
+omegaconf

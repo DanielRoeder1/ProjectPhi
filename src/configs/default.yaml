@@ -1,0 +1,44 @@
+model_args:
+  decoder_name: "gpt2-medium"
+  decoder_base_name: "gpt2-medium"
+  encoder_name: "BAAI/bge-base-en-v1.5"
+  is_enc_dec: True
+  freeze_decoder: True
+  freeze_encoder: False
+  adapter_args:
+    adapter_type: "gated_cross"
+    enc_dim: 1024
+    know_layer: [5,8,11,14,17,20,23]
+    hidden_dropout: 0.2
+    proj_bias: False
+    know_norm: ""
+    know_pos: "mlp"
+    cross_bias: True
+
+  custom_optim: False
+  train_type1: "cross"
+  train_type2: "enc"
+
+data_args:
+  prompt_type: "q"
+  cover_labels: False
+  context_column: "qc"
+  answer_column: "answers"
+  dataset_path: "squad"
+  
+training_args:
+  per_device_train_batch_size: 4
+  gradient_accumulation_steps: 4
+  warmup_steps: 500
+  num_train_epochs: 1
+  learning_rate: 1e-4
+  fp16: False
+  logging_steps: 100
+  evaluation_strategy: "epoch"
+  save_strategy: "epoch"
+  output_dir: "/netscratch/roeder/phi_train"
+  optim: "adamw_bnb_8bit"
+
+extra_args:
+  script_paths: ["train.py", "train_utils/eval.py", "train_utils/EncoderDecoder.py", "phi/modeling_phi.py", "train_utils/utils.py"]
+  watch_wandb: True

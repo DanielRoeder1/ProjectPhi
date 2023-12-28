@@ -1,4 +1,5 @@
 torch
+transformers
 accelerate
 bitsandbytes
 einops
@@ -7,3 +8,5 @@ wandb
 omegaconf
 sentence_splitter 
 evaluate
+bert_score
+rouge_score

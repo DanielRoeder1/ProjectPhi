@@ -437,7 +437,7 @@ class GPT2Block(nn.Module):
                 )
                 attn_output = cross_attn_outputs[0]
                 # residual connection
-                if self.cross_attn_norm == "var":
+                if self.cross_attn_norm == "var" and self.know_type != "gated_cross":
                     attn_output = self.scale_to_variance(attn_output, feed_forward_hidden_states)
                 elif self.cross_attn_norm == "scale":
                     attn_output = attn_output * self.attn_gate
@@ -466,7 +466,7 @@ class GPT2Block(nn.Module):
                 attn_output = cross_attn_outputs[0]
                 #print(attn_output.abs().mean(dim=-1))
                 # residual connection
-                if self.cross_attn_norm == "var":
+                if self.cross_attn_norm == "var" and self.know_type!= "gated_cross":
                     attn_output = self.scale_to_variance(attn_output, feed_forward_hidden_states)
                 elif self.cross_attn_norm == "scale":
                     attn_output = attn_output * self.attn_gate
@@ -494,7 +494,7 @@ class GPT2Block(nn.Module):
                 )
                 attn_output = cross_attn_outputs[0]
                 # residual connection
-                if self.cross_attn_norm == "var":
+                if self.cross_attn_norm == "var" and self.know_type != "gated_cross":
                     attn_output = self.scale_to_variance(attn_output, feed_forward_hidden_states)
                 elif self.cross_attn_norm == "scale":
                     attn_output = attn_output * self.attn_gate

@@ -1,6 +1,31 @@
 from torch import nn
 import torch
 
+def scale_to_variance(source_tensor, target_tensor):
+    """
+    Scale source_tensor to have the same variance as target_tensor.
+
+    Args:
+    source_tensor (torch.Tensor): The tensor to be scaled.
+    target_tensor (torch.Tensor): The tensor whose variance is to be matched.
+
+    Returns:
+    torch.Tensor: The scaled source_tensor.
+    """
+    # Calculate variance of the target tensor
+    target_variance = torch.var(target_tensor, unbiased=False)
+
+    # Normalize source tensor to have zero mean and unit variance
+    source_mean = torch.mean(source_tensor)
+    source_std = torch.std(source_tensor)
+    normalized_source = (source_tensor - source_mean) / source_std
+
+    # Scale normalized source tensor to match target variance
+    scaled_source = normalized_source * torch.sqrt(target_variance)
+
+    return scaled_source
+
+
 class SharedAttention(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -166,6 +191,7 @@ class GatedCrossAttentionBlock(nn.Module):
         super().__init__()
         self.attn_gate = nn.Parameter(torch.tensor([0.]))
         self.attention = Attention(config)
+        self.cross_attn_norm = config.know_norm if hasattr(config, "know_norm") else ""
 
     def forward(
         self,
@@ -180,6 +206,9 @@ class GatedCrossAttentionBlock(nn.Module):
                                                 key = encoder_hidden_states, 
                                                 value = encoder_hidden_states, 
                                                 attention_mask = encoder_attention_mask)
+        
+        if self.cross_attn_norm == "var":
+            attn_out = scale_to_variance(attn_out, hidden_states)
 
         hidden_states = attn_out * self.attn_gate.tanh()
 

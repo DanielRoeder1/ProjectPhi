@@ -201,7 +201,7 @@ def evaluate(model,
                             "solution_present": solution_present([gen_answer], [ref]),
                             "bleu": bleu.compute(predictions=[gen_answer], references=[ref]) if len(gen_answer) > 0 else 0,
                             "rouge": rouge.compute(predictions=[gen_answer], references=[ref]),
-                            "bert_score": bertscore.compute(predictions=[gen_answer], references=[ref], lang="en")["f1"],
+                            "bert_score": bertscore.compute(predictions=[gen_answer], references=[ref], lang="en"),
                             "id": j,
                             "batch_id":i}
             if run_decoder_only:

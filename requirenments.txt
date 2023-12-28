@@ -10,3 +10,4 @@ sentence_splitter
 evaluate
 bert_score
 rouge_score
+scikit-learn

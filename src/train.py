@@ -237,7 +237,8 @@ else:
                            cover_labels = create_labels, 
                            context_column = args.data_args.context_column,
                            run_decoder_only = train_enc_dec,
-                           num_prefix_token = model.encoder.num_prefix_token if train_enc_dec and hasattr(model.encoder, "num_prefix_token") else 0
+                           num_prefix_token = model.encoder.num_prefix_token if train_enc_dec and hasattr(model.encoder, "num_prefix_token") else 0,
+                           save_logits = args.data_args.save_logits
                           )
 
     save_path = os.path.join(trainer.args.output_dir, "eval_output.pkl")

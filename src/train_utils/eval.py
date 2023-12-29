@@ -207,8 +207,8 @@ def evaluate(model,
             if run_decoder_only:
                 batch_stats.update({"decoder_loss": decoder_loss,
                                     "decoder_generated": decoder_gen_answers[j],
-                                    "decoder_answer_logits": decoder_answer_logits[j].detach().cpu().numpy(),
-                                    "decoder_gen_logits": decoder_gen_logits[:,j,:].detach().cpu().numpy(),
+                                    "decoder_answer_logits": decoder_answer_logits[j].detach().cpu().numpy() if save_logits else None,
+                                    "decoder_gen_logits": decoder_gen_logits[:,j,:].detach().cpu().numpy() if save_logits else None,
                                    })
             full_batch_stats.append(batch_stats)
         if i == max_batches:break

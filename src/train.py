@@ -236,6 +236,7 @@ else:
                            context_enc = train_enc_dec, 
                            cover_labels = create_labels, 
                            context_column = args.data_args.context_column,
+                           answer_column = args.data_args.answer_column,
                            run_decoder_only = train_enc_dec,
                            num_prefix_token = model.encoder.num_prefix_token if train_enc_dec and hasattr(model.encoder, "num_prefix_token") else 0,
                            save_logits = args.data_args.save_logits
